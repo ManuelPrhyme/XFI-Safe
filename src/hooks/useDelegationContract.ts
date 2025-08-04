@@ -1,21 +1,15 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { useWeb3 } from './useWeb3';
+import { CONTRACT_ABI,CONTRACT_ADDRESS,CrossFi } from '../components/contractConfig';
+import {createWalletClient,custom,parseEther} from 'viem'
+import { deposit_amount } from '../components/DelegationForm';
 
-const {account} = useWeb3
+const WalletClient = createWalletClient({
+  chain:CrossFi,
+  transport:custom(window.ethereum)
+});
 
-// Contract ABI (simplified for this example)
-const CONTRACT_ABI = [
-  "function delegate(address Address)",
-  "function delegateToCustom(address delegateAddress)",
-  "function getDelegation(address user) view returns (address delegate, uint256 timestamp, string delegationType, bool active)",
-  "function getActiveStewards() view returns (address[] addresses, string[] names, uint256[] delegationCounts)",
-  "function getDelegationStats() view returns (uint256 total, uint256 self, uint256 steward, uint256 custom)",
-  "event VotingRightsDelegated(address indexed delegator, address indexed delegate, uint256 timestamp, string delegationType)"
-];
-
-// Contract address (placeholder - would be deployed contract address)
-const CONTRACT_ADDRESS = "0xac27fa800955849d6d17cc8952ba9dd6eaa66187";
 
 export interface Steward {
   address: string;
@@ -44,6 +38,8 @@ export const useDelegationContract = (signer: ethers.JsonRpcSigner | null) => {
   const [delegationInfo, setDelegationInfo] = useState<DelegationInfo | null>(null);
   const [stats, setStats] = useState<DelegationStats | null>(null);
 
+  const {account} = useWeb3()
+
   useEffect(() => {
     if (signer) {
       const contractInstance = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
@@ -52,6 +48,7 @@ export const useDelegationContract = (signer: ethers.JsonRpcSigner | null) => {
     }
   }, [signer]);
 
+  //Get User Data
   const loadContractData = async () => {
     if (!contract) return;
 
@@ -94,17 +91,25 @@ export const useDelegationContract = (signer: ethers.JsonRpcSigner | null) => {
     }
   };
 
-  const delegateToSelf = async () => {
-    if (!contract) throw new Error('Contract not initialized');
+  const onDeposit = async () => {
     
     setLoading(true);
+
     try {
-      const tx = await contract.delegate(account);
-      await tx.wait();
-      await loadContractData(); // Refresh data
+
+      const tx = WalletClient.writeContract({
+        address: CONTRACT_ADDRESS,
+        abi: CONTRACT_ABI,
+        functionName:"depositToSafe",
+        account: account,
+        value: parseEther(deposit_amount)
+      })
+      // await tx.wait();
+
+      await loadContractData(); 
       return tx;
     } catch (error) {
-      console.error('Error delegating to self:', error);
+      console.error('Error Depositing XFI Tokens:', error);
       throw error;
     } finally {
       setLoading(false);
@@ -151,7 +156,7 @@ export const useDelegationContract = (signer: ethers.JsonRpcSigner | null) => {
     stewards,
     delegationInfo,
     stats,
-    delegateToSelf,
+    onDeposit,
     delegateToSteward,
     delegateToCustom,
     refreshData: loadContractData

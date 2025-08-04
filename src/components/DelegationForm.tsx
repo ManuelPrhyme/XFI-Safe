@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Coins, Send, User, Users, Target } from 'lucide-react';
 
 interface DelegationFormProps {
   account: string;
-  onDelegateToSelf: () => void;
+  onDeposit: () => void;
   onDelegateToCustom: (address: string) => void;
   loading: boolean;
 }
 
+export let deposit_amount: string;
+
 export const DelegationForm: React.FC<DelegationFormProps> = ({
   account,
-  onDelegateToSelf,
+  onDeposit,
   onDelegateToCustom,
   loading,
 }) => {
   const [customAddress, setCustomAddress] = useState('');
   const [selectedTab, setSelectedTab] = useState<'self' | 'custom'>('self');
+  const [depositAmount, setDepositAmount] = useState('')
+
+  useEffect(()=>{
+      
+    deposit_amount = depositAmount
+
+  },[depositAmount])
 
   const handleCustomDelegate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,14 +75,14 @@ export const DelegationForm: React.FC<DelegationFormProps> = ({
               Maintain full control over your voting rights by delegating to your own address.
             </p> */}
             <input type="number" className="pl-[8px] space-y-4 text-gray-800 border-2 border-blue-500 focus:border-blue-500 focus:outline-none
-             rounded-md py-1 text-lg mb-4" placeholder='2 XFI' onChange={()=>{}} />
+             rounded-md py-1 text-lg mb-4" placeholder='2 XFI' onChange={(e)=>{setDepositAmount(e.target.value)}} />
             {/* <div className="text-sm text-gray-600 mb-4">
               Your address: <span className="font-mono">{account.slice(0, 8)}...{account.slice(-6)}</span>
             </div> */}
           </div>
           
           <button
-            onClick={onDelegateToSelf}
+            onClick={onDeposit}
             disabled={loading}
             className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:scale-100 flex items-center justify-center"
           >

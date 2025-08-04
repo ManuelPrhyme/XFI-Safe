@@ -7,6 +7,7 @@ import { DelegationStats } from './components/DelegationStats';
 import { StewardList } from './components/StewardList';
 import { DelegationForm } from './components/DelegationForm';
 import { CurrentDelegation } from './components/CurrentDelegation';
+import { deposit_amount } from './components/DelegationForm';
 
 function App() {
   const {
@@ -25,7 +26,7 @@ function App() {
     stewards,
     delegationInfo,
     stats,
-    delegateToSelf,
+    onDeposit,
     delegateToSteward,
     delegateToCustom,
   } = useDelegationContract(signer);
@@ -35,17 +36,17 @@ function App() {
     message: string;
   }>({ type: null, message: '' });
 
-  const handleDelegateToSelf = async () => {
+  const handleDeposit = async () => {
     try {
-      await delegateToSelf();
+      await onDeposit();
       setTransactionStatus({
         type: 'success',
-        message: 'Successfully delegated voting rights to yourself!',
+        message: 'Successfully Deposited '+deposit_amount+' XFI tokens',
       });
     } catch (error) {
       setTransactionStatus({
         type: 'error',
-        message: 'Failed to delegate voting rights. Please try again.',
+        message: 'Failed to Deposit XFI Tokens.',
       });
     }
   };
@@ -159,10 +160,10 @@ function App() {
           <>
         
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 mb-8">
-              {/* Self/Custom Delegation */}
+
               <DelegationForm
                 account={account!}
-                onDelegateToSelf={handleDelegateToSelf}
+                onDeposit={handleDeposit}
                 onDelegateToCustom={handleDelegateToCustom}
                 loading={loading}
               />
