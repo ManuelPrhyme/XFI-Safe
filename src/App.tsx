@@ -5,9 +5,9 @@ import { useDelegationContract } from './hooks/useDelegationContract';
 import { WalletConnection } from './components/WalletConnection';
 import { DelegationStats } from './components/DelegationStats';
 import { StewardList } from './components/StewardList';
-import { DelegationForm } from './components/DelegationForm';
+import { DepositForm } from './components/DepositForm';
 import { CurrentDelegation } from './components/CurrentDelegation';
-import { deposit_amount } from './components/DelegationForm';
+import { deposit_amount } from './components/DepositForm';
 
 function App() {
   const {
@@ -161,7 +161,7 @@ function App() {
         
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 mb-8">
 
-              <DelegationForm
+              <DepositForm
                 account={account!}
                 onDeposit={handleDeposit}
                 onDelegateToCustom={handleDelegateToCustom}

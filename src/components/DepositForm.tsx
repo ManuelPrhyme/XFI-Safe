@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Coins, Send, User, Users, Target } from 'lucide-react';
 
-interface DelegationFormProps {
+interface DepositFormProps {
   account: string;
   onDeposit: () => void;
   onDelegateToCustom: (address: string) => void;
@@ -10,7 +10,7 @@ interface DelegationFormProps {
 
 export let deposit_amount: string;
 
-export const DelegationForm: React.FC<DelegationFormProps> = ({
+export const DepositForm: React.FC<DepositFormProps> = ({
   account,
   onDeposit,
   onDelegateToCustom,

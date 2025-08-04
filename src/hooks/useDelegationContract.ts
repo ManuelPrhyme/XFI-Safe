@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import { useWeb3 } from './useWeb3';
 import { CONTRACT_ABI,CONTRACT_ADDRESS,CrossFi } from '../components/contractConfig';
 import {createWalletClient,custom,parseEther} from 'viem'
-import { deposit_amount } from '../components/DelegationForm';
+import { deposit_amount } from '../components/DepositForm'
 
 const WalletClient = createWalletClient({
   chain:CrossFi,
