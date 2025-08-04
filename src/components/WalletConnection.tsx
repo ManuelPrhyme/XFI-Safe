@@ -27,7 +27,7 @@ export const WalletConnection: React.FC<WalletConnectionProps> = ({
             Connect Your Wallet
           </h3>
           <p className="text-gray-600 mb-6">
-            Connect your wallet to start delegating your UP voting rights
+            Connect your wallet to start earn on your XFI
           </p>
           <button
             onClick={connectWallet}

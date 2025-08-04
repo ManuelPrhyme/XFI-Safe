@@ -92,8 +92,8 @@ function App() {
                   <Vote className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">UP Voting Delegation</h1>
-                  <p className="text-sm text-gray-600">Unlock Protocol on Base</p>
+                  <h1 className="text-xl font-bold text-gray-900">XFI-Safe</h1>
+                  <p className="text-sm text-gray-600">Earn reward on your deposit</p>
                 </div>
               </div>
             </div>
@@ -120,15 +120,14 @@ function App() {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Delegate Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">UP Voting Rights</span>
+            Save your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">XFI Tokens</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Participate in Unlock Protocol governance by delegating your voting rights to trusted stewards, 
-            yourself, or any custom address on the Base network.
+           Earn a 5% annual reward by securely saving your XFI tokens on the Cross Finance.
           </p>
         </div>
 
-        {/* Transaction Status */}
+
         {transactionStatus.type && (
           <div className={`mb-8 p-4 rounded-lg ${
             transactionStatus.type === 'success' 
@@ -145,7 +144,7 @@ function App() {
           </div>
         )}
 
-        {/* Wallet Connection */}
+
         <div className="mb-8">
           <WalletConnection
             account={account}
@@ -158,21 +157,7 @@ function App() {
 
         {isConnected && isOnBase && (
           <>
-            {/* Delegation Statistics */}
-            {/* <div className="mb-8"> */}
-              {/* <DelegationStats stats={stats} loading={loading} /> */}
-            {/* </div> */}
-
-            {/* Current Delegation Status */}
-            {/* <div className="mb-8">
-              <CurrentDelegation
-                delegationInfo={delegationInfo}
-                loading={loading}
-                account={account!}
-              />
-            </div> */}
-
-            {/* Delegation Interface */}
+        
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 mb-8">
               {/* Self/Custom Delegation */}
               <DelegationForm
@@ -181,14 +166,6 @@ function App() {
                 onDelegateToCustom={handleDelegateToCustom}
                 loading={loading}
               />
-
-              {/* Steward Delegation */}
-              {/* <StewardList
-                stewards={stewards}
-                loading={loading}
-                onDelegate={handleDelegateToSteward}
-                delegating={loading}
-              /> */}
             </div>
           </>
         )}
@@ -196,10 +173,10 @@ function App() {
         {/* Footer */}
         <footer className="text-center py-8 border-t border-gray-200 mt-16">
           <p className="text-gray-600">
-            Built for the Unlock Protocol community on Base network
+            Built for the Cross Finance community.
           </p>
           <p className="text-sm text-gray-500 mt-2">
-            Smart contract address: 0x1234...7890
+            Contract Address: <a className="text-green-500" href="https://test.xfiscan.com/address/0xc753e7cb4cc1f26c0bcc363d2106d22690579f53">0xc7...9f53</a>
           </p>
         </footer>
       </main>
