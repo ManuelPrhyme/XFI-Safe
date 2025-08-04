@@ -4,17 +4,17 @@ import { Wallet, AlertCircle } from 'lucide-react';
 interface WalletConnectionProps {
   account: string | null;
   isConnecting: boolean;
-  isOnBase: boolean;
+  isOnCrossFi: boolean;
   connectWallet: () => void;
-  switchToBase: () => void;
+  switchtoCrossFi: () => void;
 }
 
 export const WalletConnection: React.FC<WalletConnectionProps> = ({
   account,
   isConnecting,
-  isOnBase,
+  isOnCrossFi,
   connectWallet,
-  switchToBase,
+  switchtoCrossFi,
 }) => {
   if (!account) {
     return (
@@ -41,21 +41,21 @@ export const WalletConnection: React.FC<WalletConnectionProps> = ({
     );
   }
 
-  if (!isOnBase) {
+  if (!isOnCrossFi) {
     return (
       <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
         <div className="flex items-center">
           <AlertCircle className="w-6 h-6 text-yellow-600 mr-3" />
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-yellow-800">
-              Switch to Base Network
+              Switch to Cross Finance
             </h3>
             <p className="text-yellow-700 mt-1">
-              This application requires the Base network to function properly
+              This application requires the Cross Finance network to function properly
             </p>
           </div>
           <button
-            onClick={switchToBase}
+            onClick={switchtoCrossFi}
             className="bg-yellow-600 hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
           >
             Switch Network
@@ -70,7 +70,7 @@ export const WalletConnection: React.FC<WalletConnectionProps> = ({
       <div className="flex items-center">
         <div className="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
         <div>
-          <p className="text-green-800 font-medium">Connected to Base Network</p>
+          <p className="text-green-800 font-medium">Connected on Cross Finance </p>
           <p className="text-green-600 text-sm">
             {account.slice(0, 6)}...{account.slice(-4)}
           </p>

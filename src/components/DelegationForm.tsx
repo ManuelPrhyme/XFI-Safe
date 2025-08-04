@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, User, Users, Target } from 'lucide-react';
+import {Coins, Send, User, Users, Target } from 'lucide-react';
 
 interface DelegationFormProps {
   account: string;
@@ -30,7 +30,7 @@ export const DelegationForm: React.FC<DelegationFormProps> = ({
     <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
       <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
         <Send className="w-6 h-6 mr-2 text-green-600" />
-        Delegate Your Voting Rights
+        Deposit your XFI Tokens
       </h3>
 
       <div className="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-lg">
@@ -42,8 +42,8 @@ export const DelegationForm: React.FC<DelegationFormProps> = ({
               : 'text-gray-600 hover:text-gray-900'
           }`}
         >
-          <User className="w-4 h-4 inline mr-2" />
-          Self
+          <Coins className="w-4 h-4 inline mr-2" />
+          Deposit
         </button>
         <button
           onClick={() => setSelectedTab('custom')}
@@ -61,13 +61,15 @@ export const DelegationForm: React.FC<DelegationFormProps> = ({
       {selectedTab === 'self' && (
         <div className="space-y-4">
           <div className="p-4 bg-blue-50 rounded-lg">
-            <p className="text-blue-800 font-medium mb-2">Delegate to Yourself</p>
-            <p className="text-blue-600 text-sm mb-4">
+            <p className="text-blue-800 font-medium mb-2">Enter XFI amount to deposit</p>
+            {/* <p className="text-blue-600 text-sm mb-4">
               Maintain full control over your voting rights by delegating to your own address.
-            </p>
-            <div className="text-sm text-gray-600 mb-4">
+            </p> */}
+            <input type="number" className="pl-[8px] space-y-4 text-gray-800 border-2 border-blue-500 focus:border-blue-500 focus:outline-none
+             rounded-md py-1 text-lg mb-4" placeholder='2 XFI' onChange={()=>{}} />
+            {/* <div className="text-sm text-gray-600 mb-4">
               Your address: <span className="font-mono">{account.slice(0, 8)}...{account.slice(-6)}</span>
-            </div>
+            </div> */}
           </div>
           
           <button
@@ -75,8 +77,7 @@ export const DelegationForm: React.FC<DelegationFormProps> = ({
             disabled={loading}
             className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:scale-100 flex items-center justify-center"
           >
-            <User className="w-5 h-5 mr-2" />
-            {loading ? 'Delegating...' : 'Delegate to Self'}
+            {loading ? 'Depositing...' : 'Deposit'}
           </button>
         </div>
       )}

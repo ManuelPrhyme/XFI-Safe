@@ -14,17 +14,15 @@ export const useWeb3 = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [chainId, setChainId] = useState<number | null>(null);
 
-  const BASE_CHAIN_ID = 8453; // Base mainnet chain ID
+  const CROSS_FINANCE_CHAIN_ID = 4157; 
 
   useEffect(() => {
     if (window.ethereum) {
       const provider = new ethers.BrowserProvider(window.ethereum);
       setProvider(provider);
 
-      // Check if already connected
       checkConnection();
 
-      // Listen for account changes
       window.ethereum.on('accountsChanged', handleAccountsChanged);
       window.ethereum.on('chainChanged', handleChainChanged);
     }
@@ -74,9 +72,9 @@ export const useWeb3 = () => {
       const network = await provider.getNetwork();
       setChainId(Number(network.chainId));
 
-      // Switch to Base network if not already
-      if (Number(network.chainId) !== BASE_CHAIN_ID) {
-        await switchToBase();
+      
+      if (Number(network.chainId) !== CROSS_FINANCE_CHAIN_ID) {
+        await switchtoCrossFi();
       }
     } catch (error) {
       console.error('Error connecting wallet:', error);
@@ -85,11 +83,11 @@ export const useWeb3 = () => {
     }
   };
 
-  const switchToBase = async () => {
+  const switchtoCrossFi = async () => {
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: `0x${BASE_CHAIN_ID.toString(16)}` }],
+        params: [{ chainId: `0x${CROSS_FINANCE_CHAIN_ID.toString(16)}` }],
       });
     } catch (switchError: any) {
       // This error code indicates that the chain has not been added to MetaMask
@@ -99,20 +97,20 @@ export const useWeb3 = () => {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: `0x${BASE_CHAIN_ID.toString(16)}`,
-                chainName: 'Base',
+                chainId: `0x${CROSS_FINANCE_CHAIN_ID.toString(16)}`,
+                chainName: 'CrossFi Testnet',
                 nativeCurrency: {
-                  name: 'Ethereum',
-                  symbol: 'ETH',
+                  name: 'CrossFi',
+                  symbol: 'XFI',
                   decimals: 18,
                 },
-                rpcUrls: ['https://mainnet.base.org'],
-                blockExplorerUrls: ['https://basescan.org'],
+                rpcUrls: ['https://rpc.testnet.ms'],
+                blockExplorerUrls: ['https://test.xfiscan.com'],
               },
             ],
           });
         } catch (addError) {
-          console.error('Error adding Base network:', addError);
+          console.error('Error adding CrossFi network:', addError);
         }
       }
     }
@@ -148,9 +146,9 @@ export const useWeb3 = () => {
     chainId,
     isConnecting,
     isConnected: !!account,
-    isOnBase: chainId === BASE_CHAIN_ID,
+    isOnCrossFi: chainId === CROSS_FINANCE_CHAIN_ID,
     connectWallet,
-    switchToBase,
+    switchtoCrossFi,
     disconnect,
   };
 };

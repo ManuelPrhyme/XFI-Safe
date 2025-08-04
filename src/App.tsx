@@ -14,9 +14,9 @@ function App() {
     signer,
     isConnecting,
     isConnected,
-    isOnBase,
+    isOnCrossFi,
     connectWallet,
-    switchToBase,
+    switchtoCrossFi,
     disconnect
   } = useWeb3();
 
@@ -149,13 +149,13 @@ function App() {
           <WalletConnection
             account={account}
             isConnecting={isConnecting}
-            isOnBase={isOnBase}
+            isOnCrossFi={isOnCrossFi}
             connectWallet={connectWallet}
-            switchToBase={switchToBase}
+            switchtoCrossFi={switchtoCrossFi}
           />
         </div>
 
-        {isConnected && isOnBase && (
+        {isConnected && isOnCrossFi && (
           <>
         
             <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 mb-8">
