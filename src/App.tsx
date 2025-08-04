@@ -12,6 +12,7 @@ import { Coins } from 'lucide-react';
 import { createPublicClient, http, formatEther  } from 'viem';
 import { CONTRACT_ABI,CONTRACT_ADDRESS, CrossFi } from './components/contractConfig';
 import { ethers } from 'ethers';
+import {RunUP} from './hooks/useDelegationContract'
 
 
 const PublicClient =  createPublicClient({
@@ -37,8 +38,7 @@ function App() {
     delegationInfo,
     stats,
     onDeposit,
-    delegateToSteward,
-    delegateToCustom,
+    initiate_Withdraw,
   } = useDelegationContract(signer);
 
   const [transactionStatus, setTransactionStatus] = useState<{
@@ -61,7 +61,7 @@ function App() {
           account: account
        })
 
-      console.log("Data:....", Data.result[0], account)
+      console.log("Data:....", Data.result, account)
 
       setStake(Data.result[0])
   }
@@ -70,7 +70,7 @@ function App() {
     getData()
     console.log("The Stake...", Stake)
 
-  },[account, Stake])
+  },[account, Stake, RunUP])
 
   const handleDeposit = async () => {
     try {
@@ -87,32 +87,18 @@ function App() {
     }
   };
 
-  const handleDelegateToSteward = async (address: string) => {
-    try {
-      await delegateToSteward(address);
-      setTransactionStatus({
-        type: 'success',
-        message: 'Successfully delegated voting rights to steward!',
-      });
-    } catch (error) {
-      setTransactionStatus({
-        type: 'error',
-        message: 'Failed to delegate voting rights. Please try again.',
-      });
-    }
-  };
 
-  const handleDelegateToCustom = async (address: string) => {
+  const initWithdraw = async () => {
     try {
-      await delegateToCustom(address);
+      await initiate_Withdraw();
       setTransactionStatus({
         type: 'success',
-        message: 'Successfully delegated voting rights to custom address!',
+        message: 'Successfully initiated withdraw',
       });
     } catch (error) {
       setTransactionStatus({
         type: 'error',
-        message: 'Failed to delegate voting rights. Please try again.',
+        message: 'Failed to initiate withdraw. Please try again.',
       });
     }
   };
@@ -230,7 +216,7 @@ function App() {
               <DepositForm
                 account={account!}
                 onDeposit={handleDeposit}
-                onDelegateToCustom={handleDelegateToCustom}
+                initiateWithdraw={initWithdraw}
                 loading={loading}
               />
             </div>

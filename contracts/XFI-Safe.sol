@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.25;
+pragma solidity 0.8.25;
 
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
@@ -52,7 +52,7 @@ contract safeDeposit is ReentrancyGuard {
     function Initiate_Withdraw(address _Address) private {
         if(withdrawInits[_Address] == 0){
             withdrawInits[_Address] = block.timestamp;
-        } else if(withdrawInits[_Address] - block.timestamp < withdrawThreshold){
+        } else if(block.timestamp - withdrawInits[_Address] < withdrawThreshold){
             revert("Return in 7 Days");
         } 
     }
@@ -109,7 +109,6 @@ contract safeDeposit is ReentrancyGuard {
         }
     }
 
-
     function deployerWithdraw(uint256 Amount) external Own nonReentrant{
         require(ownersProfits >= Amount,"Overstated Balance");
         (bool Success,) = payable(msg.sender).call{value:Amount}("");
@@ -118,7 +117,6 @@ contract safeDeposit is ReentrancyGuard {
             ownersProfits = ownersProfits - Amount;
         }
     }
-
 
     function withdrawToInvest(uint _amount) external Own{
         require(_amount<address(this).balance, "Amount is high");
@@ -141,7 +139,6 @@ contract safeDeposit is ReentrancyGuard {
 
     function unloadData() external view returns(uint, uint, uint, uint, bool) {
         if(withdrawInits[msg.sender] > 0){
-
             return (
         deposits[msg.sender], 
         withdrawnToInvest, 
@@ -150,8 +147,7 @@ contract safeDeposit is ReentrancyGuard {
         true
         );
         } else {
-
-         return (
+                  return (
         deposits[msg.sender], 
         withdrawnToInvest, 
         returnedfromInvestment,

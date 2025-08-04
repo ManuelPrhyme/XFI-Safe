@@ -1,6 +1,6 @@
 import { defineChain } from "viem";
 
-export const CONTRACT_ADDRESS = "0xa30e76cf840d973f61352412817f8e0fbcf7aea9";
+export const CONTRACT_ADDRESS = "0x558a9f0433eacaf418698b5e42fd924fccdc0b60";
 
 export const CrossFi = defineChain({
   id: 4157,
