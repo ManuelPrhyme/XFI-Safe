@@ -97,7 +97,7 @@ export const useDelegationContract = (signer: ethers.JsonRpcSigner | null) => {
 
     try {
 
-      const tx = WalletClient.writeContract({
+      const tx = await WalletClient.writeContract({
         address: CONTRACT_ADDRESS,
         abi: CONTRACT_ABI,
         functionName:"depositToSafe",

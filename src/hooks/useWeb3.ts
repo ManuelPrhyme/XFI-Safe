@@ -90,7 +90,6 @@ export const useWeb3 = () => {
         params: [{ chainId: `0x${CROSS_FINANCE_CHAIN_ID.toString(16)}` }],
       });
     } catch (switchError: any) {
-      // This error code indicates that the chain has not been added to MetaMask
       if (switchError.code === 4902) {
         try {
           await window.ethereum.request({

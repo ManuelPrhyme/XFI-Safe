@@ -1,6 +1,6 @@
 import { defineChain } from "viem";
 
-export const CONTRACT_ADDRESS = "0xc753e7cb4cc1f26c0bcc363d2106d22690579f53";
+export const CONTRACT_ADDRESS = "0xa30e76cf840d973f61352412817f8e0fbcf7aea9";
 
 export const CrossFi = defineChain({
   id: 4157,
@@ -43,8 +43,16 @@ export const CONTRACT_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "returnfromInvestment",
+		"outputs": [],
 		"stateMutability": "payable",
-		"type": "receive"
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	},
 	{
 		"inputs": [
@@ -60,27 +68,21 @@ export const CONTRACT_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [],
-		"name": "checkBalance",
-		"outputs": [
+		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
+				"name": "_amount",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
+		"name": "withdrawToInvest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
 	},
 	{
 		"inputs": [
@@ -100,6 +102,38 @@ export const CONTRACT_ABI = [
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "unloadData",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
-

@@ -16,7 +16,7 @@ export const DepositForm: React.FC<DepositFormProps> = ({
   onDelegateToCustom,
   loading,
 }) => {
-  const [customAddress, setCustomAddress] = useState('');
+  const [customAmount, setCustomAmount] = useState('');
   const [selectedTab, setSelectedTab] = useState<'self' | 'custom'>('self');
   const [depositAmount, setDepositAmount] = useState('')
 
@@ -28,12 +28,10 @@ export const DepositForm: React.FC<DepositFormProps> = ({
 
   const handleCustomDelegate = (e: React.FormEvent) => {
     e.preventDefault();
-    if (customAddress && customAddress.startsWith('0x') && customAddress.length === 42) {
-      onDelegateToCustom(customAddress);
+    if (Number(customAmount) > 0) {
+      onDelegateToCustom(customAmount);
     }
   };
-
-  const isValidAddress = customAddress.startsWith('0x') && customAddress.length === 42;
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
@@ -63,7 +61,7 @@ export const DepositForm: React.FC<DepositFormProps> = ({
           }`}
         >
           <Target className="w-4 h-4 inline mr-2" />
-          Custom
+          Withdraw
         </button>
       </div>
 
@@ -71,14 +69,9 @@ export const DepositForm: React.FC<DepositFormProps> = ({
         <div className="space-y-4">
           <div className="p-4 bg-blue-50 rounded-lg">
             <p className="text-blue-800 font-medium mb-2">Enter XFI amount to deposit</p>
-            {/* <p className="text-blue-600 text-sm mb-4">
-              Maintain full control over your voting rights by delegating to your own address.
-            </p> */}
             <input type="number" className="pl-[8px] space-y-4 text-gray-800 border-2 border-blue-500 focus:border-blue-500 focus:outline-none
              rounded-md py-1 text-lg mb-4" placeholder='2 XFI' onChange={(e)=>{setDepositAmount(e.target.value)}} />
-            {/* <div className="text-sm text-gray-600 mb-4">
-              Your address: <span className="font-mono">{account.slice(0, 8)}...{account.slice(-6)}</span>
-            </div> */}
+           
           </div>
           
           <button
@@ -94,36 +87,39 @@ export const DepositForm: React.FC<DepositFormProps> = ({
       {selectedTab === 'custom' && (
         <form onSubmit={handleCustomDelegate} className="space-y-4">
           <div className="p-4 bg-orange-50 rounded-lg">
-            <p className="text-orange-800 font-medium mb-2">Delegate to Custom Address</p>
+            <p className="text-orange-800 font-medium mb-2">Enter Withdraw Amount</p>
             <p className="text-orange-600 text-sm">
-              Enter any Ethereum address to delegate your voting rights to that address.
+              <span className="text-red-500 font-[800]">Note</span> The yield will subsequently be calculated for the unwithdrawn balance
             </p>
           </div>
           
           <div>
-            <label htmlFor="customAddress" className="block text-sm font-medium text-gray-700 mb-2">
+            {/* <label htmlFor="customAddress" className="block text-sm font-medium text-gray-700 mb-2">
               Ethereum Address
-            </label>
+            </label> */}
+            
             <input
-              type="text"
+              type="number"
               id="customAddress"
-              value={customAddress}
-              onChange={(e) => setCustomAddress(e.target.value)}
-              placeholder="0x..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors font-mono text-sm"
+              value={customAmount}
+              onChange={(e) => setCustomAmount(e.target.value)}
+              placeholder="2 XFI"
+             // className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors font-mono text-sm"
+            className="pl-[8px] space-y-4 text-gray-800 border-2 border-blue-500 focus:border-blue-500 focus:outline-none
+             rounded-md py-1 text-lg mb-2"
             />
-            {customAddress && !isValidAddress && (
-              <p className="text-red-600 text-sm mt-1">Please enter a valid Ethereum address</p>
+            {customAmount && (
+              <p className="text-red-600 text-sm">Enter value below {}## XFI</p>
             )}
           </div>
           
           <button
             type="submit"
-            disabled={!isValidAddress || loading}
+            disabled={Number(customAmount) <= 0 || loading}
             className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 disabled:scale-100 flex items-center justify-center"
           >
             <Target className="w-5 h-5 mr-2" />
-            {loading ? 'Delegating...' : 'Delegate to Address'}
+            {loading ? 'Intiating...' : 'Initiate Withdraw'}
           </button>
         </form>
       )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Vote, Github, ExternalLink } from 'lucide-react';
 import { useWeb3 } from './hooks/useWeb3';
 import { useDelegationContract } from './hooks/useDelegationContract';
@@ -8,6 +8,16 @@ import { StewardList } from './components/StewardList';
 import { DepositForm } from './components/DepositForm';
 import { CurrentDelegation } from './components/CurrentDelegation';
 import { deposit_amount } from './components/DepositForm';
+import { Coins } from 'lucide-react';
+import { createPublicClient, http, formatEther  } from 'viem';
+import { CONTRACT_ABI,CONTRACT_ADDRESS, CrossFi } from './components/contractConfig';
+import { ethers } from 'ethers';
+
+
+const PublicClient =  createPublicClient({
+  chain: CrossFi,
+  transport: http()
+})
 
 function App() {
   const {
@@ -35,6 +45,32 @@ function App() {
     type: 'success' | 'error' | null;
     message: string;
   }>({ type: null, message: '' });
+
+  const [Stake,setStake] = useState<any>();
+
+  
+
+  useEffect(()=>{
+
+    const getData = async () => {
+
+       const Data = await PublicClient.simulateContract({
+          address: CONTRACT_ADDRESS,
+          abi: CONTRACT_ABI,
+          functionName:"unloadData",
+          account: account
+       })
+
+      console.log("Data:....", Data.result[0], account)
+
+      setStake(Data.result[0])
+  }
+
+  
+    getData()
+    console.log("The Stake...", Stake)
+
+  },[account, Stake])
 
   const handleDeposit = async () => {
     try {
@@ -144,6 +180,36 @@ function App() {
             </button>
           </div>
         )}
+
+        <div className="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-lg">
+                <div
+                  className={`flex py-2 px-4 align-center rounded-md font-medium transition-colors bg-white text-blue-600 shadow-sm'`}>
+                 
+                  <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 
+                  to-purple-600">
+                  In Stake: <span className=" font-bold text-gray-900 mb-4"> {Stake ? Number(formatEther(Stake)).toFixed(3) : ".."} XFI </span>
+                </h3>
+
+                </div>
+
+                {/* <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                  Save your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 
+                  to-purple-600">XFI Tokens</span>
+                </h2> */}
+
+
+                {/* <button
+                  onClick={() => setSelectedTab('custom')}
+                  className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
+                    selectedTab === 'custom'
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <Target className="w-4 h-4 inline mr-2" />
+                  Withdraw
+                </button> */}
+              </div>
 
 
         <div className="mb-8">
