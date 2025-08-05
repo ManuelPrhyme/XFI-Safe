@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Vote, Github, ExternalLink } from 'lucide-react';
+import { Vote, Github, ExternalLink, Heading3 } from 'lucide-react';
 import { useWeb3 } from './hooks/useWeb3';
 import { useDelegationContract } from './hooks/useDelegationContract';
 import { WalletConnection } from './components/WalletConnection';
@@ -47,6 +47,9 @@ function App() {
   }>({ type: null, message: '' });
 
   const [Stake,setStake] = useState<any>();
+  const [Reallocated,setReallocated] = useState<any>();
+  const [Unstake,setUnstake] = useState<any>();
+
 
   
 
@@ -64,6 +67,8 @@ function App() {
       console.log("Data:....", Data.result, account)
 
       setStake(Data.result[0])
+      setReallocated(Data.result[1])
+      setUnstake(Data.result[3])
   }
 
   
@@ -167,7 +172,7 @@ function App() {
           </div>
         )}
 
-        <div className="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-lg">
+        <div className="flex space-x-4 justify-around mb-6 bg-gray-100 p-1 rounded-lg">
                 <div
                   className={`flex py-2 px-4 align-center rounded-md font-medium transition-colors bg-white text-blue-600 shadow-sm'`}>
                  
@@ -177,6 +182,58 @@ function App() {
                 </h3>
 
                 </div>
+
+                <div 
+                  style={{display: Unstake && Number((formatEther(Unstake))/86400) <= 7? 'flex' : 'none'}}
+                  className={`flex py-2 px-4 align-center rounded-md font-medium transition-colors bg-white text-blue-600 shadow-sm'`}>
+                 
+                  {
+                  Number((formatEther(Unstake))/86400) <= 7 ?
+                  <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 
+                  to-purple-600">
+
+                  <span>Unstaking In:</span> {
+                    (Number(formatEther(Unstake))/86400).toFixed(0) > 0 ? 
+                  <span className=" font-bold text-gray-900 mb-4"> {
+                  (Number(formatEther(Unstake))/86400).toFixed(0)} Days</span> :
+
+                  (Number(formatEther(Unstake))/3600).toFixed(0) > 0 ?
+                  <span className=" font-bold text-gray-900 mb-4"> {
+                  (Number(formatEther(Unstake))/3600).toFixed(0)} Hours</span> : 
+                  
+                  (Number(formatEther(Unstake))/60).toFixed(0) > 0 ? 
+                  <span className=" font-bold text-gray-900 mb-4"> {
+                  (Number(formatEther(Unstake))/60).toFixed(0)} Minutes</span> : 
+
+                  
+                  <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 
+                  to-purple-600">
+                  Unstaked</h3>
+                }
+                  
+                
+                </h3> :
+
+                <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 
+                  to-purple-600">
+                  Un..staked</h3>
+                
+              }
+
+                </div>
+
+                {/* <div
+                  style={{display: Reallocated ? 'flex' : 'none'}}
+                  className={`flex py-2 px-4 align-center rounded-md font-medium transition-colors bg-white text-blue-600 shadow-sm'`}>
+                 
+                   <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 
+                  to-pink-600">
+                  Reallocated: <span className=" font-bold text-gray-900 mb-4"> { Number(formatEther(Reallocated)).toFixed(3)} XFI </span>
+                </h3> 
+
+                </div> */}
+
+                
 
                 {/* <h2 className="text-4xl font-bold text-gray-900 mb-4">
                   Save your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 

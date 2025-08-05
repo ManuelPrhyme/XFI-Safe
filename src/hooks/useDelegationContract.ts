@@ -142,6 +142,9 @@ export const useDelegationContract = (signer: ethers.JsonRpcSigner | null) => {
       })
 
       console.log("Withdraw..",tx)
+
+      rerun ? setRerun(false) : setRerun(true);
+      
       return tx;
 
     } catch (error) {
