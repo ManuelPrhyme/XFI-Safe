@@ -1,11 +1,11 @@
 import { defineChain } from "viem";
 
-const Contract = "0xa30e76CF840d973f61352412817f8e0FBCf7Aea9"
-const Contract_Finale = "0xf980f4d197f80d4e78f013ec84eda7eba506ff87"
-export const CONTRACT_ADDRESS =  "0x558a9f0433eacaf418698b5e42fd924fccdc0b60";
+
+const Contract_Finale = "0x1b5bbc25f41cbb4f77852c35e5bd422a7eb061aa"
+export const CONTRACT_ADDRESS =  Contract_Finale;
 
 export const CrossFi = defineChain({
-  id: 4157,
+  id: 4158,
   name: 'CrossFi Testnet',
   nativeCurrency: {
     decimals: 18,
@@ -13,12 +13,12 @@ export const CrossFi = defineChain({
     symbol: 'XFI',
   },
   rpcUrls: {
-    default: { http: ['https://rpc.testnet.ms'] },
+    default: { http: ['https://rpc.mainnet.ms'] },
   },
   blockExplorers: {
     default: {
-      name: 'XFI TestScan',
-      url: 'https://test.xfiscan.com'
+      name: 'XFI Scan',
+      url: 'https://xfiscan.com'
     },
   },
 })

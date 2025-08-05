@@ -138,12 +138,12 @@ contract safeDeposit is ReentrancyGuard {
     }
 
     function unloadData() external view returns(uint, uint, uint, uint, bool) {
-        if(withdrawInits[msg.sender] > 0){
+        if(withdrawInits[msg.sender] > 0 && int(withdrawThreshold-(block.timestamp + withdrawInits[msg.sender])) > 0){
             return (
         deposits[msg.sender], 
         withdrawnToInvest, 
         returnedfromInvestment,
-        block.timestamp - withdrawInits[msg.sender],
+        withdrawThreshold-(block.timestamp + withdrawInits[msg.sender]),
         true
         );
         } else {

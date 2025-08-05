@@ -14,7 +14,7 @@ export const useWeb3 = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [chainId, setChainId] = useState<number | null>(null);
 
-  const CROSS_FINANCE_CHAIN_ID = 4157; 
+  const CROSS_FINANCE_CHAIN_ID = 4158; 
 
   useEffect(() => {
     if (window.ethereum) {
